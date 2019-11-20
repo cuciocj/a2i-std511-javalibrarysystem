@@ -13,3 +13,4 @@ nb-configuration.xml
 *.ear
 *.nar
 hs_err_pid*
+/nbproject/*
