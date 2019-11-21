@@ -21,7 +21,8 @@ public class LoginFrame extends javax.swing.JFrame {
     }
     
     private void customInit() {
-        ImageIcon imageIcon = new ImageIcon("/home/yib00005xs/Pictures/confused_cat_crop.jpg");
+        //ImageIcon imageIcon = new ImageIcon("/home/yib00005xs/Pictures/confused_cat_crop.jpg");
+        ImageIcon imageIcon = new ImageIcon("resources/img/confused_cat_crop.jpg");
         icon.setIcon(imageIcon);
         lblResponse.setText("");
     }
@@ -121,8 +122,9 @@ public class LoginFrame extends javax.swing.JFrame {
                 DashboardFrame dashboardFrame = new DashboardFrame();
                 dashboardFrame.setVisible(true);
             } else {
-                icon.setIcon(new ImageIcon("/home/yib00005xs/Pictures/yellingwoman.jpeg"));
+                icon.setIcon(new ImageIcon("resources/img/yellingwoman.jpeg"));
                 lblResponse.setText(response.getMessage());
+                //
             }
         } else {
             System.out.println("LoginFrame.btnLoginActionPerformed() response is null");
