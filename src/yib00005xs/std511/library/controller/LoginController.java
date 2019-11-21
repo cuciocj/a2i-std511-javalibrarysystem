@@ -12,20 +12,20 @@ import yib00005xs.std511.library.repository.AdminRepository;
 
 public class LoginController {
     
-    // TODO: do validations here
     public Response doProcess(LoginRequest loginRequest) {
+        Response response = new Response();
         System.out.println("username: " + loginRequest.getUsername());
         System.out.println("password: " + loginRequest.getPassword());
         
         AdminRepository loginRepository = new AdminRepository();
         Admin admin = loginRepository.find(new Admin(loginRequest.getUsername(), loginRequest.getPassword()));
         if(admin != null) {
-            System.out.println("FOUND " + admin.getUsername() + "|" + admin.getPassword());
+            response = new Response(200, "Success");
         } else {
-            System.out.println("NOT FOUND");
+            response = new Response(501, "Invalid Credentials. Please try again!");
         }
         
-        return null;
+        return response;
     }
 
 }

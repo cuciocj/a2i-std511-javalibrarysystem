@@ -15,14 +15,13 @@ public class RegistrationController {
     
     // TODO response return object
     public Response doProcess(Admin admin) {
-        Response response = null;
+        Response response = new Response();
         AdminRepository adminRepository = new AdminRepository();
         
-        // TODO
         if(adminRepository.create(admin)) {
-            JOptionPane.showConfirmDialog(null, "Admin [" + admin.getUsername() + "] is created", "Success", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            response = new Response(200, "Success");
         } else {
-            JOptionPane.showConfirmDialog(null, "Username already exists", "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+            response = new Response(501, "Username already exists");
         }
         
         return response;

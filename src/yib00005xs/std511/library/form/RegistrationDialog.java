@@ -1,7 +1,9 @@
 package yib00005xs.std511.library.form;
 
+import javax.swing.JOptionPane;
 import yib00005xs.std511.library.controller.RegistrationController;
 import yib00005xs.std511.library.model.Admin;
+import yib00005xs.std511.library.model.Response;
 
 /**
  *
@@ -135,12 +137,26 @@ public class RegistrationDialog extends javax.swing.JDialog {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
-        // TODO add your handling code here:
-        Admin adminRequest = new Admin(txtName.getText(), txtUsername.getText(), String.valueOf(txtPassword.getPassword()));
-        new RegistrationController().doProcess(adminRequest);
+        Admin adminRequest = new Admin(txtName.getText().trim(), 
+                txtUsername.getText().trim(), String.valueOf(txtPassword.getPassword()).trim());
+        Response response = new RegistrationController().doProcess(adminRequest);
+        
+        if(response != null) {
+            if(response.getMessage().equalsIgnoreCase("success")) {
+                JOptionPane.showConfirmDialog(null, "Admin [" + adminRequest.getUsername() + "] is created", 
+                        "Success", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                dispose();
+            } else {
+                JOptionPane.showConfirmDialog(null, response.getMessage(), "Error", 
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            System.out.println("RegistrationDialog.btnRegisterActionPerformed(): response is null");
+        }
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     /**

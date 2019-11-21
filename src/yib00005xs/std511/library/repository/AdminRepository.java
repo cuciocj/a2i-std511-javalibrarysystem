@@ -21,7 +21,7 @@ public class AdminRepository {
        Connection con = null; 
        PreparedStatement ps = null;
        ResultSet rs = null;
-       String sql = "select * from " + TABLE + " where username = ? and password = ? limit 1";
+       String sql = "select * from " + TABLE + " where username = ? and password = ?";
        
        try {
            con = Util.getConnection();
@@ -46,6 +46,36 @@ public class AdminRepository {
        }
        
        return admin;
+    }
+    
+    public boolean update(Admin item) {
+        Boolean flag = false;
+        Connection con = null;
+        PreparedStatement ps = null;
+        String sql = "update " + TABLE + "(name, username, password)"
+                + " SET name = ?, username = ?, password = ?"
+                + " where id = ?";
+        
+        try {
+            con = Util.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, item.getName());
+            ps.setString(2, item.getUsername());
+            ps.setString(3, item.getPassword());
+            ps.setInt(4, item.getId());
+            
+            System.out.println("AdminRepository.update() SQL: " + ps.toString());
+            if(ps.executeUpdate() > 0) {
+                flag = true;
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("AdminRepository.update() ERROR: " + e.toString());
+        } finally {
+            Util.close(con, ps);
+        }
+        
+        return flag;
     }
     
     public boolean create(Admin item) {

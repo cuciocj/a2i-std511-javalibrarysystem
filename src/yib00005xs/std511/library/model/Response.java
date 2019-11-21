@@ -18,6 +18,12 @@ public class Response<T> {
         this.message = null;
         this.data = null;
     }
+    
+    public Response(String message) {
+        this.code = null;
+        this.message = message;
+        this.data = null;
+    }
 
     public Response(int code, String message) {
         this.code = code;

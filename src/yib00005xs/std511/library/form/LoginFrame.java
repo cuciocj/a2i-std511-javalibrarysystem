@@ -4,6 +4,7 @@ import java.awt.Cursor;
 import javax.swing.ImageIcon;
 import yib00005xs.std511.library.controller.LoginController;
 import yib00005xs.std511.library.controller.request.LoginRequest;
+import yib00005xs.std511.library.model.Response;
 
 /**
  *
@@ -11,7 +12,7 @@ import yib00005xs.std511.library.controller.request.LoginRequest;
  */
 public class LoginFrame extends javax.swing.JFrame {
 
-    /**
+    /**`
      * Creates new form LoginFrame
      */
     public LoginFrame() {
@@ -22,6 +23,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private void customInit() {
         ImageIcon imageIcon = new ImageIcon("/home/yib00005xs/Pictures/confused_cat_crop.jpg");
         icon.setIcon(imageIcon);
+        lblResponse.setText("");
     }
 
     /**
@@ -38,6 +40,7 @@ public class LoginFrame extends javax.swing.JFrame {
         txtPassword = new javax.swing.JPasswordField();
         lblCreateAccount = new javax.swing.JLabel();
         icon = new javax.swing.JLabel();
+        lblResponse = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
@@ -62,30 +65,38 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
 
+        lblResponse.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblResponse.setText("jLabel1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(102, Short.MAX_VALUE)
+                .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(96, 96, 96))
             .addGroup(layout.createSequentialGroup()
-                .addGap(103, 103, 103)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtUsername)
-                            .addComponent(txtPassword)
-                            .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblCreateAccount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(icon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addGap(116, 116, 116)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtUsername)
+                    .addComponent(txtPassword)
+                    .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblCreateAccount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblResponse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(35, 35, 35)
                 .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(4, 4, 4)
+                .addComponent(lblResponse)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(6, 6, 6)
                 .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -93,7 +104,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 .addComponent(btnLogin)
                 .addGap(6, 6, 6)
                 .addComponent(lblCreateAccount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         pack();
@@ -102,7 +113,20 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add validation
-        new LoginController().doProcess(new LoginRequest(txtUsername.getText(), String.valueOf(txtPassword.getPassword())));
+        LoginRequest request = new LoginRequest(txtUsername.getText(), String.valueOf(txtPassword.getPassword()));
+        Response response = new LoginController().doProcess(request);
+        if(response != null) {
+            if(response.getCode() == 200) {
+                dispose();
+                DashboardFrame dashboardFrame = new DashboardFrame();
+                dashboardFrame.setVisible(true);
+            } else {
+                icon.setIcon(new ImageIcon("/home/yib00005xs/Pictures/yellingwoman.jpeg"));
+                lblResponse.setText(response.getMessage());
+            }
+        } else {
+            System.out.println("LoginFrame.btnLoginActionPerformed() response is null");
+        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void lblCreateAccountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCreateAccountMouseClicked
@@ -157,6 +181,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel icon;
     private javax.swing.JLabel lblCreateAccount;
+    private javax.swing.JLabel lblResponse;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
