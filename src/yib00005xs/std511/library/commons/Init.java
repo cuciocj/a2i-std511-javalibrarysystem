@@ -6,6 +6,7 @@
 package yib00005xs.std511.library.commons;
 
 import java.util.Properties;
+import org.apache.logging.log4j.Logger;
 import yib00005xs.std511.library.form.LoginFrame;
 
 public class Init {
@@ -18,6 +19,7 @@ public class Init {
         initialize();
     }
     
+    // TODO initialize
     private void initialize() {
         System.out.println(properties.getProperty("database.driver"));
     }

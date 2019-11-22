@@ -3,10 +3,10 @@ build/*
 nbbuild/
 dist/*
 nbdist/*
+.mtj.tmp/
+logs/*
 nbactions.xml
 nb-configuration.xml
-
-.mtj.tmp/
 *.class
 *.jar
 *.war
