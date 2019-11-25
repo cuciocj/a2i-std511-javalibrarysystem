@@ -20,19 +20,17 @@ public class Main {
         init.start();
     }
     
-    public static Properties loadPropertiesFile(String stringFile) throws IOException {
-        InputStream input = null;
+    public static Properties loadPropertiesFile(String filePath) throws IOException {
         Properties properties = null;
         try {
-            input = new FileInputStream(stringFile);
+            InputStream input = new FileInputStream(filePath);
             properties = new Properties();
             properties.load(input);
+            input.close();
         } catch (FileNotFoundException e) {
             System.out.println("Main.loadPropertiesFile() ERROR: " + e.toString());
         } catch (IOException e) {
             System.out.println("Main.loadPropertiesFile() ERROR: " + e.toString());
-        } finally {
-            input.close();
         }
         
         return properties;
