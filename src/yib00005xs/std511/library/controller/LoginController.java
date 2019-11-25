@@ -8,7 +8,7 @@ package yib00005xs.std511.library.controller;
 import yib00005xs.std511.library.controller.request.LoginRequest;
 import yib00005xs.std511.library.model.Admin;
 import yib00005xs.std511.library.model.Response;
-import yib00005xs.std511.library.repository.AdminRepository;
+import yib00005xs.std511.library.dao.AdminDao;
 
 public class LoginController {
     
@@ -17,7 +17,7 @@ public class LoginController {
         System.out.println("username: " + loginRequest.getUsername());
         System.out.println("password: " + loginRequest.getPassword());
         
-        AdminRepository loginRepository = new AdminRepository();
+        AdminDao loginRepository = new AdminDao();
         Admin admin = loginRepository.find(new Admin(loginRequest.getUsername(), loginRequest.getPassword()));
         if(admin != null) {
             response = new Response(200, "Success");
@@ -26,6 +26,11 @@ public class LoginController {
         }
         
         return response;
+    }
+    
+    // comment
+    public Response doProcessTest(LoginRequest request) {
+        return new Response(200, "Success");
     }
 
 }

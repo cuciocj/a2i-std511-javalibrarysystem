@@ -8,15 +8,13 @@ package yib00005xs.std511.library.controller;
 import javax.swing.JOptionPane;
 import yib00005xs.std511.library.model.Admin;
 import yib00005xs.std511.library.model.Response;
-import yib00005xs.std511.library.repository.AdminRepository;
+import yib00005xs.std511.library.dao.AdminDao;
 
 public class RegistrationController {
     
-    
-    // TODO response return object
     public Response doProcess(Admin admin) {
         Response response = new Response();
-        AdminRepository adminRepository = new AdminRepository();
+        AdminDao adminRepository = new AdminDao();
         
         if(adminRepository.create(admin)) {
             response = new Response(200, "Success");

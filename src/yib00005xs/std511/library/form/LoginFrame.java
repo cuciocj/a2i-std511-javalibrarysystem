@@ -114,7 +114,11 @@ public class LoginFrame extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add validation
         LoginRequest request = new LoginRequest(txtUsername.getText(), String.valueOf(txtPassword.getPassword()));
-        Response response = new LoginController().doProcess(request);
+        
+        // change on prod
+        Response response = new LoginController().doProcessTest(request);
+        //Response response = new LoginController().doProcess(request);
+        
         if(response != null) {
             if(response.getCode() == 200) {
                 dispose();
@@ -132,7 +136,6 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void lblCreateAccountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCreateAccountMouseClicked
         // TODO add your handling code here:
-        System.out.println("Label clicked");
         RegistrationDialog registrationDialog = new RegistrationDialog(this, rootPaneCheckingEnabled);
         registrationDialog.setVisible(true);
     }//GEN-LAST:event_lblCreateAccountMouseClicked
