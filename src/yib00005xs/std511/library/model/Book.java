@@ -38,6 +38,17 @@ public class Book {
         this.quantity = quantity;
     }
     
+    public Book(Integer id, String title, String author, String isbn, String genre, String publisher, Integer year, Integer quantity) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.genre = genre;
+        this.publisher = publisher;
+        this.year = year;
+        this.quantity = quantity;
+    }
+    
     public Integer getId() {
         return id;
     }

@@ -70,11 +70,12 @@ public class BookDao {
             con = Util.getConnection();
             ps = con.prepareStatement(sql);
 
-            System.out.println("BooksDao.list() SQL : " + ps.toString());
+            System.out.println("BooksDao.find() SQL : " + ps.toString());
             rs = ps.executeQuery();
 
             if (rs.next()) {
-                book = new Book(rs.getString("title"),
+                book = new Book(rs.getInt("id"),
+                        rs.getString("title"),
                         rs.getString("author"),
                         rs.getString("isbn"),
                         rs.getString("genre"),
@@ -84,7 +85,7 @@ public class BookDao {
             }
 
         } catch (SQLException e) {
-            System.out.println("BooksDao.list() ERROR : " + e.toString());
+            System.out.println("BooksDao.find() ERROR : " + e.toString());
         } finally {
             Util.close(con, ps);
         }

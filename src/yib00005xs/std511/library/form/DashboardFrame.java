@@ -29,7 +29,7 @@ public class DashboardFrame extends javax.swing.JFrame {
 
     public void initializeBookTable() {
         List<Book> bookList = new BookDao().list();
-        
+
         DefaultTableModel model = initializeColumns();
 
         for (Book book : bookList) {
@@ -55,7 +55,7 @@ public class DashboardFrame extends javax.swing.JFrame {
                 return false;
             }
         };
-        
+
         model.addColumn("ISBN");
         model.addColumn("title");
         model.addColumn("author");
@@ -63,7 +63,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         model.addColumn("publisher");
         model.addColumn("year");
         model.addColumn("quantity");
-        
+
         return model;
     }
 
@@ -287,24 +287,32 @@ public class DashboardFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBookManagementActionPerformed
 
     private void btnDeleteBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteBookActionPerformed
-        System.out.println(Arrays.toString(tblBooks.getSelectedRows()));
-        System.out.println((String) tblBooks.getValueAt(tblBooks.getSelectedRow(), 0));
+        try {
+            System.out.println(Arrays.toString(tblBooks.getSelectedRows()));
+            System.out.println((String) tblBooks.getValueAt(tblBooks.getSelectedRow(), 0));
 
-        List<Book> list = new ArrayList<>();
-        for(Integer row : tblBooks.getSelectedRows()) {
-            Book book = new Book((String) tblBooks.getValueAt(row, 0));
-            list.add(book);
+            List<Book> list = new ArrayList<>();
+            for (Integer row : tblBooks.getSelectedRows()) {
+                Book book = new Book((String) tblBooks.getValueAt(row, 0));
+                list.add(book);
+            }
+
+            Boolean flag = new BookDao().delete(list);
+            if (flag) {
+                JOptionPane.showConfirmDialog(null, "Book deleted",
+                        "Success", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                
+                initializeBookTable();
+            } else {
+                JOptionPane.showConfirmDialog(null, "Error deleting book", "Error",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("DashboardFrame.btnDeleteBookActionPerformed() ERROR : " + e.toString());
+            JOptionPane.showConfirmDialog(null, "Please select a book to delete", "Error",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
         }
 
-        Boolean flag = new BookDao().delete(list);
-        if(flag) {
-            JOptionPane.showConfirmDialog(null, "Book deleted",
-                "Success", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
-            initializeBookTable();
-        } else {
-            JOptionPane.showConfirmDialog(null, "Error deleting book", "Error",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
-        }
     }//GEN-LAST:event_btnDeleteBookActionPerformed
 
     private void btnInsertBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertBookActionPerformed
@@ -321,15 +329,17 @@ public class DashboardFrame extends javax.swing.JFrame {
             System.out.println((String) tblBooks.getValueAt(tblBooks.getSelectedRow(), 0));
             Book book = new Book((String) tblBooks.getValueAt(tblBooks.getSelectedRow(), 0));
             book = bookDao.find(book);
-            
-            System.out.println(book.toString());
-            
+
+            UpdateBookDialog updateBookDialog = new UpdateBookDialog(this, rootPaneCheckingEnabled, book);
+            updateBookDialog.setVisible(true);
+
+            initializeBookTable();
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("DashboardFrame.btnUpdateBookActionPerformed() ERROR : " + e.toString());
             JOptionPane.showConfirmDialog(null, "Please select a book to update", "Error",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_btnUpdateBookActionPerformed
 
     /**
