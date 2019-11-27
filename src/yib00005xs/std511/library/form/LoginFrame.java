@@ -116,8 +116,8 @@ public class LoginFrame extends javax.swing.JFrame {
         LoginRequest request = new LoginRequest(txtUsername.getText(), String.valueOf(txtPassword.getPassword()));
         
         // change on prod
-        Response response = new LoginController().doProcessTest(request);
-        //Response response = new LoginController().doProcess(request);
+        //Response response = new LoginController().doProcessTest(request);
+        Response response = new LoginController().doProcess(request);
         
         if(response != null) {
             if(response.getCode() == 200) {
