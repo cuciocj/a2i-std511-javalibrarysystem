@@ -43,7 +43,9 @@ public class BookDao {
             }
 
         } catch (SQLException e) {
-            System.out.println("BooksDao.list() ERROR " + e.toString());
+            System.out.println("BooksDao.list() ERROR : " + e.toString());
+        } finally {
+            Util.close(con, ps);
         }
 
         return list;
@@ -55,7 +57,15 @@ public class BookDao {
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "select * from " + TABLE + " where 1 = 1";
-
+        
+        if(item.getId() != null) {
+            sql += " and id = " + item.getId();
+        }
+        
+        if(item.getIsbn() != null) {
+            sql += " and isbn = '" + item.getIsbn() + "'";
+        }
+        
         try {
             con = Util.getConnection();
             ps = con.prepareStatement(sql);
@@ -74,10 +84,45 @@ public class BookDao {
             }
 
         } catch (SQLException e) {
-            System.out.println("BooksDao.list() ERROR " + e.toString());
+            System.out.println("BooksDao.list() ERROR : " + e.toString());
+        } finally {
+            Util.close(con, ps);
         }
 
         return book;
+    }
+    
+    public boolean update(Book item) {
+        Boolean flag = false;
+        Connection con = null;
+        PreparedStatement ps = null;
+        String sql = "update " + TABLE + " SET title = ?, author = ?, isbn = ?, "
+                + "genre = ?, publisher = ?, publication_year = ?, quantity = ? where id = ?";
+        
+        try {
+            con = Util.getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, item.getTitle());
+            ps.setString(2, item.getAuthor());
+            ps.setString(3, item.getIsbn());
+            ps.setString(4, item.getGenre());
+            ps.setString(5, item.getPublisher());
+            ps.setInt(6, item.getPublicationYear());
+            ps.setInt(7, item.getQuantity());
+            ps.setInt(8, item.getId());
+            
+            System.out.println("BookDao.update() SQL : " + ps.toString());
+            if(ps.executeUpdate() > 0) {
+                flag = true;
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("BookDao.update() ERROR : " + e.toString());
+        } finally {
+            Util.close(con, ps);
+        }
+        
+        return flag;
     }
 
     public boolean create(Book item) {
