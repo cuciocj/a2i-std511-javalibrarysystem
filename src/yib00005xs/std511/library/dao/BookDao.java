@@ -5,7 +5,6 @@
 package yib00005xs.std511.library.dao;
 
 import yib00005xs.std511.library.model.Book;
-import yib00005xs.std511.library.commons.Util;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDao {
+public class BookDao extends Dao {
 
     private final static String TABLE = "books";
 
@@ -25,7 +24,7 @@ public class BookDao {
         String sql = "select * from " + TABLE + " order by id";
 
         try {
-            con = Util.getConnection();
+            con = getConnection();
             ps = con.prepareStatement(sql);
 
             System.out.println("BooksDao.list() SQL : " + ps.toString());
@@ -45,7 +44,7 @@ public class BookDao {
         } catch (SQLException e) {
             System.out.println("BooksDao.list() ERROR : " + e.toString());
         } finally {
-            Util.close(con, ps);
+            close(con, ps);
         }
 
         return list;
@@ -67,7 +66,7 @@ public class BookDao {
         }
         
         try {
-            con = Util.getConnection();
+            con = getConnection();
             ps = con.prepareStatement(sql);
 
             System.out.println("BooksDao.find() SQL : " + ps.toString());
@@ -87,7 +86,7 @@ public class BookDao {
         } catch (SQLException e) {
             System.out.println("BooksDao.find() ERROR : " + e.toString());
         } finally {
-            Util.close(con, ps);
+            close(con, ps);
         }
 
         return book;
@@ -101,7 +100,7 @@ public class BookDao {
                 + "genre = ?, publisher = ?, publication_year = ?, quantity = ? where id = ?";
         
         try {
-            con = Util.getConnection();
+            con = getConnection();
             ps = con.prepareStatement(sql);
             ps.setString(1, item.getTitle());
             ps.setString(2, item.getAuthor());
@@ -120,7 +119,7 @@ public class BookDao {
         } catch (SQLException e) {
             System.out.println("BookDao.update() ERROR : " + e.toString());
         } finally {
-            Util.close(con, ps);
+            close(con, ps);
         }
         
         return flag;
@@ -134,7 +133,7 @@ public class BookDao {
                 + " values (?, ?, ?, ?, ?, ?, ?)";
 
         try {
-            con = Util.getConnection();
+            con = getConnection();
             ps = con.prepareStatement(sql);
             ps.setString(1, item.getTitle());
             ps.setString(2, item.getAuthor());
@@ -152,7 +151,7 @@ public class BookDao {
         } catch (SQLException e) {
             System.out.println("BooksDao.create() ERROR : " + e.toString());
         } finally {
-            Util.close(con, ps);
+            close(con, ps);
         }
 
         return flag;
@@ -165,7 +164,7 @@ public class BookDao {
         String sql = "delete from " + TABLE + " where id = ?";
 
         try {
-            con = Util.getConnection();
+            con = getConnection();
             ps = con.prepareStatement(sql);
             ps.setInt(1, item.getId());
 
@@ -177,7 +176,7 @@ public class BookDao {
         } catch (SQLException e) {
             System.out.println("BooksDao.delete() ERROR : " + e.toString());
         } finally {
-            Util.close(con, ps);
+            close(con, ps);
         }
 
         return flag;
@@ -197,7 +196,7 @@ public class BookDao {
         sql = sql + sb.deleteCharAt(sb.length() - 1).toString() + ")";
 
         try {
-            con = Util.getConnection();
+            con = getConnection();
             ps = con.prepareStatement(sql);
             
             int index = 1;
@@ -206,15 +205,15 @@ public class BookDao {
                 index++;
             }
 
-            System.out.println("BooksDao.delete() SQL: " + ps.toString());
+            System.out.println("BooksDao.delete(list) SQL: " + ps.toString());
             if (ps.executeUpdate() > 0) {
                 flag = true;
             }
 
         } catch (SQLException e) {
-            System.out.println("BooksDao.delete() ERROR : " + e.toString());
+            System.out.println("BooksDao.delete(list) ERROR : " + e.toString());
         } finally {
-            Util.close(con, ps);
+            close(con, ps);
         }
 
         return flag;

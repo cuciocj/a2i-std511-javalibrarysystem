@@ -6,13 +6,12 @@
 package yib00005xs.std511.library.dao;
 
 import yib00005xs.std511.library.model.Admin;
-import yib00005xs.std511.library.commons.Util;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class AdminDao {
+public class AdminDao extends Dao {
     
     private final static String TABLE = "admins";
     
@@ -24,7 +23,7 @@ public class AdminDao {
        String sql = "select * from " + TABLE + " where username = ? and password = ?";
        
        try {
-           con = Util.getConnection();
+           con = getConnection();
            ps = con.prepareStatement(sql);
            ps.setString(1, item.getUsername());
            ps.setString(2, item.getPassword());
@@ -42,7 +41,7 @@ public class AdminDao {
        } catch (SQLException e) {
            System.out.println("LoginRepository.find() ERROR: " + e.toString());
        } finally {
-           Util.close(con, ps);
+           close(con, ps);
        }
        
        return admin;
@@ -57,7 +56,7 @@ public class AdminDao {
                 + " where id = ?";
         
         try {
-            con = Util.getConnection();
+            con = getConnection();
             ps = con.prepareStatement(sql);
             ps.setString(1, item.getName());
             ps.setString(2, item.getUsername());
@@ -72,7 +71,7 @@ public class AdminDao {
         } catch (SQLException e) {
             System.out.println("AdminRepository.update() ERROR: " + e.toString());
         } finally {
-            Util.close(con, ps);
+            close(con, ps);
         }
         
         return flag;
@@ -86,7 +85,7 @@ public class AdminDao {
                 + "(?, ?, ?)";
         
         try {
-            con = Util.getConnection();
+            con = getConnection();
             ps = con.prepareStatement(sql);
             ps.setString(1, item.getName());
             ps.setString(2, item.getUsername());
@@ -100,7 +99,7 @@ public class AdminDao {
         } catch (SQLException e) {
             System.out.println("AdminRepository.create() ERROR: " + e.toString());
         } finally {
-            Util.close(con, ps);
+            close(con, ps);
         }
         
         return flag;
