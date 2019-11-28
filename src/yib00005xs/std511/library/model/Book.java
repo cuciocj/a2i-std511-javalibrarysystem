@@ -5,9 +5,7 @@
 
 package yib00005xs.std511.library.model;
 
-public class Book {
-    
-    private Integer id;
+public class Book extends Entity {
     
     private String title;
     
@@ -38,8 +36,9 @@ public class Book {
         this.quantity = quantity;
     }
     
-    public Book(Integer id, String title, String author, String isbn, String genre, String publisher, Integer year, Integer quantity) {
-        this.id = id;
+    public Book(Integer id, String title, String author, String isbn,
+            String genre, String publisher, Integer year, Integer quantity) {
+        super(id);
         this.title = title;
         this.author = author;
         this.isbn = isbn;
@@ -49,14 +48,6 @@ public class Book {
         this.quantity = quantity;
     }
     
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
     }

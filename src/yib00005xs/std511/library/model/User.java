@@ -5,9 +5,7 @@
 
 package yib00005xs.std511.library.model;
 
-public class User {
-    
-    private Integer id;
+public class User extends Entity {
     
     private String name;
 
@@ -16,7 +14,7 @@ public class User {
     }
     
     public User(Integer id) {
-        this.id = id;
+        super(id);
     }
     
     public User(String name) {
@@ -24,16 +22,8 @@ public class User {
     }
 
     public User(Integer id, String name) {
-        this.id = id;
+        super(id);
         this.name = name;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {

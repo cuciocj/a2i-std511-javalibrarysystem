@@ -5,40 +5,20 @@
 
 package yib00005xs.std511.library.model;
 
-public class Student {
-    
-    private Integer id;
+public class Student extends User {
     
     private String schoolId;
     
-    private String name;
-
-    public Student() {
-        
+    public Student(Integer id) {
+        super(id);
     }
     
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getSchoolId() {
         return schoolId;
     }
 
     public void setSchoolId(String schoolId) {
         this.schoolId = schoolId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
     
 }
