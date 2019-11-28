@@ -322,6 +322,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         btnTransactions.setSelected(true);
 
         pnlBookManagement.setVisible(false);
+        pnlTransaction.setVisible(true);
     }//GEN-LAST:event_btnTransactionsActionPerformed
 
     private void btnBookManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookManagementActionPerformed
@@ -330,6 +331,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         btnTransactions.setSelected(false);
 
         pnlBookManagement.setVisible(true);
+        pnlTransaction.setVisible(false);
         initializeBookTable();
     }//GEN-LAST:event_btnBookManagementActionPerformed
 
