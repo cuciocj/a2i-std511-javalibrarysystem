@@ -6,7 +6,9 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import yib00005xs.std511.library.dao.BookDao;
+import yib00005xs.std511.library.dao.TransactionDao;
 import yib00005xs.std511.library.model.Book;
+import yib00005xs.std511.library.model.Transaction;
 
 /**
  *
@@ -25,12 +27,12 @@ public class DashboardFrame extends javax.swing.JFrame {
 
     public void customInit() {
         initializeBookTable();
+        initializeTransactionTable();
     }
 
     public void initializeBookTable() {
         List<Book> bookList = new BookDao().list();
-
-        DefaultTableModel model = initializeColumns();
+        DefaultTableModel model = initializeBookColumns();
 
         for (Book book : bookList) {
             Object[] obj = new Object[]{
@@ -48,8 +50,31 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         tblBooks.setModel(model);
     }
+    
+    public void initializeTransactionTable() {
+        List<Transaction> transactionList = new TransactionDao().list();
+        DefaultTableModel model = initializeTransactionColumns();
+        
+        for(Transaction trans : transactionList) {
+            Object[] obj = new Object[]{
+                trans.getId(),
+                trans.getStudent().getSchoolId(),
+                trans.getBook().getIsbn(),
+                trans.getQuantity(),
+                trans.getStatus(),
+                trans.getDateBorrowed(),
+                trans.getDueDate(),
+                trans.getDateReturned(),
+                trans.getAdmin().getUsername()
+            };
 
-    public DefaultTableModel initializeColumns() {
+            model.addRow(obj);
+        }
+        
+        tblTransactions.setModel(model);
+    }
+
+    public DefaultTableModel initializeBookColumns() {
         DefaultTableModel model = new DefaultTableModel() {
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -66,7 +91,27 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         return model;
     }
+    
+    public DefaultTableModel initializeTransactionColumns() {
+        DefaultTableModel model = new DefaultTableModel() {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
 
+        model.addColumn("id");
+        model.addColumn("student");
+        model.addColumn("book");
+        model.addColumn("quantity");
+        model.addColumn("status");
+        model.addColumn("borrowed on");
+        model.addColumn("due on");
+        model.addColumn("returned on");
+        model.addColumn("admin");
+
+        return model;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -93,7 +138,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblTransactions = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -227,7 +272,7 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         jButton4.setText("Return");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblTransactions.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -238,7 +283,7 @@ public class DashboardFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tblTransactions);
 
         javax.swing.GroupLayout pnlTransactionLayout = new javax.swing.GroupLayout(pnlTransaction);
         pnlTransaction.setLayout(pnlTransactionLayout);
@@ -442,9 +487,9 @@ public class DashboardFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel pnlBookManagement;
     private javax.swing.JPanel pnlTransaction;
     private javax.swing.JTable tblBooks;
+    private javax.swing.JTable tblTransactions;
     // End of variables declaration//GEN-END:variables
 }
