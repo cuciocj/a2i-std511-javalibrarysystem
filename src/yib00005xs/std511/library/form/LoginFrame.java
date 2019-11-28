@@ -17,10 +17,10 @@ public class LoginFrame extends javax.swing.JFrame {
      */
     public LoginFrame() {
         initComponents();
-        customInit();
+        reInitializeLogin();
     }
     
-    private void customInit() {
+    private void reInitializeLogin() {
         ImageIcon imageIcon = new ImageIcon("resources/img/confused_cat_crop.jpg");
         icon.setIcon(imageIcon);
         lblResponse.setText("");
@@ -127,7 +127,6 @@ public class LoginFrame extends javax.swing.JFrame {
             } else {
                 icon.setIcon(new ImageIcon("resources/img/yellingwoman.jpeg"));
                 lblResponse.setText(response.getMessage());
-                //
             }
         } else {
             System.out.println("LoginFrame.btnLoginActionPerformed() response is null");
@@ -138,6 +137,8 @@ public class LoginFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         RegistrationDialog registrationDialog = new RegistrationDialog(this, rootPaneCheckingEnabled);
         registrationDialog.setVisible(true);
+        
+        reInitializeLogin();
     }//GEN-LAST:event_lblCreateAccountMouseClicked
 
     private void lblCreateAccountMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCreateAccountMouseEntered
