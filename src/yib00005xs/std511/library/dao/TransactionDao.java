@@ -35,8 +35,8 @@ public class TransactionDao extends Dao {
             rs = ps.executeQuery();
             while(rs.next()) {
                 Transaction item = new Transaction(rs.getInt("id"),
-                        new Student(rs.getInt("student_id")),
-                        new Book(rs.getInt("book_id")), 
+                        new StudentDao().find(new Student(rs.getInt("student_id"))),
+                        new BookDao().find(new Book(rs.getInt("book_id"))), 
                         rs.getInt("quantity"),
                         rs.getString("status"),
                         rs.getString("date_borrowed"), 

@@ -26,6 +26,9 @@ public class DashboardFrame extends javax.swing.JFrame {
     }
 
     public void customInit() {
+        pnlBookManagement.setVisible(true);
+        pnlTransaction.setVisible(false);
+        
         initializeBookTable();
         initializeTransactionTable();
     }
@@ -58,8 +61,8 @@ public class DashboardFrame extends javax.swing.JFrame {
         for(Transaction trans : transactionList) {
             Object[] obj = new Object[]{
                 trans.getId(),
-                trans.getStudent().getSchoolId(),
-                trans.getBook().getIsbn(),
+                trans.getStudent().getName(),
+                trans.getBook().getTitle(),
                 trans.getQuantity(),
                 trans.getStatus(),
                 trans.getDateBorrowed(),
@@ -87,7 +90,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         model.addColumn("genre");
         model.addColumn("publisher");
         model.addColumn("year");
-        model.addColumn("quantity");
+        model.addColumn("copies left");
 
         return model;
     }
@@ -126,19 +129,19 @@ public class DashboardFrame extends javax.swing.JFrame {
         btnTransactions = new javax.swing.JToggleButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         pnlBookManagement = new javax.swing.JPanel();
-        btnInsertBook = new javax.swing.JButton();
+        btnAddBook = new javax.swing.JButton();
         btnDeleteBook = new javax.swing.JButton();
         btnUpdateBook = new javax.swing.JButton();
-        btnListBooks = new javax.swing.JButton();
+        btnBorrow = new javax.swing.JButton();
+        btnReturn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblBooks = new javax.swing.JTable();
         pnlTransaction = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnAddStudent = new javax.swing.JButton();
+        btnDeleteStudent = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblTransactions = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -177,10 +180,10 @@ public class DashboardFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnInsertBook.setText("Add");
-        btnInsertBook.addActionListener(new java.awt.event.ActionListener() {
+        btnAddBook.setText("Add");
+        btnAddBook.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInsertBookActionPerformed(evt);
+                btnAddBookActionPerformed(evt);
             }
         });
 
@@ -198,7 +201,14 @@ public class DashboardFrame extends javax.swing.JFrame {
             }
         });
 
-        btnListBooks.setText("Search");
+        btnBorrow.setText("Borrow");
+        btnBorrow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrowActionPerformed(evt);
+            }
+        });
+
+        btnReturn.setText("Return");
 
         tblBooks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -239,38 +249,44 @@ public class DashboardFrame extends javax.swing.JFrame {
         pnlBookManagementLayout.setHorizontalGroup(
             pnlBookManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBookManagementLayout.createSequentialGroup()
-                .addGroup(pnlBookManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnUpdateBook, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDeleteBook, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnInsertBook, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnListBooks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 923, Short.MAX_VALUE))
+                .addGroup(pnlBookManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlBookManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnUpdateBook, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnDeleteBook, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAddBook, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlBookManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(btnReturn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnBorrow, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 893, Short.MAX_VALUE))
         );
         pnlBookManagementLayout.setVerticalGroup(
             pnlBookManagementLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBookManagementLayout.createSequentialGroup()
-                .addComponent(btnInsertBook)
+                .addComponent(btnAddBook)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDeleteBook)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnUpdateBook)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 186, Short.MAX_VALUE)
+                .addComponent(btnBorrow)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnListBooks)
-                .addGap(0, 225, Short.MAX_VALUE))
+                .addComponent(btnReturn)
+                .addGap(9, 9, 9))
             .addGroup(pnlBookManagementLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jButton1.setText("Add");
+        btnAddStudent.setText("Add");
+        btnAddStudent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddStudentActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Remove");
-
-        jButton3.setText("Borrow");
-
-        jButton4.setText("Return");
+        btnDeleteStudent.setText("Remove");
 
         tblTransactions.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -285,35 +301,37 @@ public class DashboardFrame extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tblTransactions);
 
+        jLabel1.setText("Student");
+
         javax.swing.GroupLayout pnlTransactionLayout = new javax.swing.GroupLayout(pnlTransaction);
         pnlTransaction.setLayout(pnlTransactionLayout);
         pnlTransactionLayout.setHorizontalGroup(
             pnlTransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlTransactionLayout.createSequentialGroup()
-                .addGroup(pnlTransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE))
+                .addGroup(pnlTransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlTransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btnDeleteStudent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAddStudent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlTransactionLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 917, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 893, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlTransactionLayout.setVerticalGroup(
             pnlTransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlTransactionLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(pnlTransactionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlTransactionLayout.createSequentialGroup()
-                        .addComponent(jButton3)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(btnAddStudent)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2))
-                    .addGroup(pnlTransactionLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addComponent(btnDeleteStudent))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -346,8 +364,9 @@ public class DashboardFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -409,12 +428,12 @@ public class DashboardFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnDeleteBookActionPerformed
 
-    private void btnInsertBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertBookActionPerformed
+    private void btnAddBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBookActionPerformed
         AddBookDialog addBookDialog = new AddBookDialog(this, rootPaneCheckingEnabled);
         addBookDialog.setVisible(true);
 
         initializeBookTable();
-    }//GEN-LAST:event_btnInsertBookActionPerformed
+    }//GEN-LAST:event_btnAddBookActionPerformed
 
     private void btnUpdateBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateBookActionPerformed
         BookDao bookDao = new BookDao();
@@ -435,6 +454,31 @@ public class DashboardFrame extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnUpdateBookActionPerformed
+
+    private void btnAddStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStudentActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAddStudentActionPerformed
+
+    private void btnBorrowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrowActionPerformed
+        
+        if(tblBooks.getSelectedRows().length > 0) {
+            System.out.println("selected: " + Arrays.toString(tblBooks.getSelectedRows()));
+            
+            List<Book> list = new ArrayList<>();
+            for (Integer row : tblBooks.getSelectedRows()) {
+                Book book = new BookDao().find(new Book((String) tblBooks.getValueAt(row, 0)));
+                list.add(book);
+            }
+            
+            BorrowDialog borrowDialog = new BorrowDialog(this, rootPaneCheckingEnabled, list);
+            borrowDialog.setVisible(true);
+            
+            initializeBookTable();
+        } else {
+            JOptionPane.showConfirmDialog(null, "Please select a book to borrow", "Error",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBorrowActionPerformed
 
     /**
      * @param args the command line arguments
@@ -473,16 +517,16 @@ public class DashboardFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddBook;
+    private javax.swing.JButton btnAddStudent;
     private javax.swing.JToggleButton btnBookManagement;
+    private javax.swing.JButton btnBorrow;
     private javax.swing.JButton btnDeleteBook;
-    private javax.swing.JButton btnInsertBook;
-    private javax.swing.JButton btnListBooks;
+    private javax.swing.JButton btnDeleteStudent;
+    private javax.swing.JButton btnReturn;
     private javax.swing.JToggleButton btnTransactions;
     private javax.swing.JButton btnUpdateBook;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
