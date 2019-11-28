@@ -10,6 +10,10 @@ public class Admin extends User {
     private String username;
     
     private String password;
+    
+    public Admin(Integer id) {
+        super(id);
+    }
 
     public Admin(String username, String password) {
         this.username = username;

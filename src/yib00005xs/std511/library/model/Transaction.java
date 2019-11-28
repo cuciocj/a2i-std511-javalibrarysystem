@@ -5,9 +5,7 @@
 
 package yib00005xs.std511.library.model;
 
-public class Transaction {
-    
-    private Integer id;
+public class Transaction extends Entity {
     
     private Student student;
     
@@ -27,7 +25,7 @@ public class Transaction {
 
     public Transaction(Integer id, Student student, Book book, Integer quantity,
             String status, String dateBorrowed, String dueDate, String dateReturned, Admin admin) {
-        this.id = id;
+        super(id);
         this.student = student;
         this.book = book;
         this.quantity = quantity;
@@ -36,10 +34,6 @@ public class Transaction {
         this.dueDate = dueDate;
         this.dateReturned = dateReturned;
         this.admin = admin;
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public Student getStudent() {

@@ -20,6 +20,10 @@ public class Book extends Entity {
     private Integer year;
     
     private Integer quantity;
+    
+    public Book(Integer id) {
+        super(id);
+    }
 
     public Book(String isbn) {
         this.isbn = isbn;
