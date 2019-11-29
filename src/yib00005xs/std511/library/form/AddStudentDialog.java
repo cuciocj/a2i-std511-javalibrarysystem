@@ -116,6 +116,7 @@ public class AddStudentDialog extends javax.swing.JDialog {
             if (studentDao.create(student)) {
                 JOptionPane.showConfirmDialog(null, "Student added",
                         "Success", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                clearField();
             } else {
                 JOptionPane.showConfirmDialog(null, "Error adding student", "Error",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -126,6 +127,11 @@ public class AddStudentDialog extends javax.swing.JDialog {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void clearField() {
+        txtName.setText("");
+        txtSchoolId.setText("");
+    }
 
     /**
      * @param args the command line arguments
