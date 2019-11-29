@@ -5,7 +5,7 @@
 
 CREATE TABLE public.admins (
 	id serial NOT NULL,
-	name varchar NOT NULL,
+	"name" varchar NOT NULL,
 	username varchar NOT NULL,
 	"password" varchar NOT NULL,
 	CONSTRAINT admins_pkey PRIMARY KEY (id),
@@ -36,7 +36,8 @@ CREATE TABLE public.books (
 CREATE TABLE public.students (
 	id serial NOT NULL,
 	school_id varchar NOT NULL,
-	name varchar NOT NULL,
+	"name" varchar NOT NULL,
+	status varchar NOT NULL DEFAULT 'clear'::character varying,
 	CONSTRAINT students_pkey PRIMARY KEY (id),
 	CONSTRAINT students_school_id_key UNIQUE (school_id)
 );
@@ -50,7 +51,7 @@ CREATE TABLE public.transactions (
 	student_id int4 NOT NULL,
 	book_id int4 NOT NULL,
 	quantity int4 NOT NULL,
-	status status NOT NULL,
+	status varchar NOT NULL,
 	date_borrowed varchar NOT NULL,
 	due_date varchar NOT NULL,
 	date_returned varchar NOT NULL,
