@@ -14,6 +14,11 @@ public class Student extends User {
     public Student(Integer id) {
         super(id);
     }
+    
+    public Student(String schoolId, String name) {
+        super(name);
+        this.schoolId = schoolId;
+    }
 
     public Student(String schoolId, Integer id, String name, String status) {
         super(id, name);

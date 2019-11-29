@@ -58,6 +58,33 @@ public class StudentDao extends Dao {
         return student;
     }
 
+    public boolean create(Student student) {
+        Boolean flag = false;
+        Connection con = null;
+        PreparedStatement ps = null;
+        String sql = "insert into " + TABLE + "(school_id, name)"
+                + " values (?, ?)";
+
+        try {
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, student.getSchoolId());
+            ps.setString(2, student.getName());
+
+            System.out.println("StudentDao.create() SQL : " + ps.toString());
+            if (ps.executeUpdate() > 0) {
+                flag = true;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("StudentDao.create() ERROR : " + e.toString());
+        } finally {
+            close(con, ps);
+        }
+
+        return flag;
+    }
+
     public List<Student> list() {
         List<Student> list = new ArrayList<>();
         Connection con = null;

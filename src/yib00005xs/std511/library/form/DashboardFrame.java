@@ -456,7 +456,8 @@ public class DashboardFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUpdateBookActionPerformed
 
     private void btnAddStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStudentActionPerformed
-        // TODO add your handling code here:
+        AddStudentDialog addStudentDialog = new AddStudentDialog(this, rootPaneCheckingEnabled);
+        addStudentDialog.setVisible(true);
     }//GEN-LAST:event_btnAddStudentActionPerformed
 
     private void btnBorrowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrowActionPerformed
