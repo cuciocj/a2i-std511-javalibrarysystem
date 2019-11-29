@@ -32,20 +32,21 @@ public class StudentDao extends Dao {
             } else {
                 ps.setInt(1, 0);
             }
-            
+
             if (item.getSchoolId() != null) {
                 ps.setString(2, item.getSchoolId());
             } else {
                 ps.setString(2, "");
             }
-            
+
             System.out.println("StudentDao.findById() SQL : " + ps.toString());
             rs = ps.executeQuery();
-            
+
             if (rs.next()) {
                 student = new Student(rs.getString("school_id"),
                         rs.getInt("id"),
-                        rs.getString("name"));
+                        rs.getString("name"),
+                        rs.getString("status"));
             }
 
         } catch (SQLException e) {
@@ -56,35 +57,62 @@ public class StudentDao extends Dao {
 
         return student;
     }
-    
+
     public List<Student> list() {
         List<Student> list = new ArrayList<>();
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "select * from " + TABLE + " order by name asc";
-        
+
         try {
             con = getConnection();
             ps = con.prepareStatement(sql);
-            
+
             System.out.println("StudentDao.list() SQL : " + ps.toString());
             rs = ps.executeQuery();
-            
-            while(rs.next()) {
+
+            while (rs.next()) {
                 Student s = new Student(rs.getString("school_id"),
                         rs.getInt("id"),
-                        rs.getString("name"));
+                        rs.getString("name"),
+                        rs.getString("status"));
                 list.add(s);
             }
-            
+
         } catch (SQLException e) {
             System.out.println("StudentDao.list() ERROR : " + e.toString());
         } finally {
             close(con, ps);
         }
-        
+
         return list;
+    }
+
+    public boolean update(Student student) {
+        Boolean flag = false;
+        Connection con = null;
+        PreparedStatement ps = null;
+        String sql = "update " + TABLE + " set status = ? where id = ?";
+
+        try {
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, student.getStatus());
+            ps.setInt(2, student.getId());
+
+            System.out.println("StudentDao.update() SQL : " + ps.toString());
+            if (ps.executeUpdate() > 0) {
+                flag = true;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("StudentDao.update() ERROR : " + e.toString());
+        } finally {
+            close(con, ps);
+        }
+
+        return flag;
     }
 
 }

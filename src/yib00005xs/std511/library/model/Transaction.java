@@ -22,6 +22,18 @@ public class Transaction extends Entity {
     private String dateReturned;
     
     private Admin admin;
+    
+    public Transaction(Student student, Book book, Integer quantity,
+            String status, String dateBorrowed, String dueDate, String dateReturned, Admin admin) {
+        this.student = student;
+        this.book = book;
+        this.quantity = quantity;
+        this.status = status;
+        this.dateBorrowed = dateBorrowed;
+        this.dueDate = dueDate;
+        this.dateReturned = dateReturned;
+        this.admin = admin;
+    }
 
     public Transaction(Integer id, Student student, Book book, Integer quantity,
             String status, String dateBorrowed, String dueDate, String dateReturned, Admin admin) {

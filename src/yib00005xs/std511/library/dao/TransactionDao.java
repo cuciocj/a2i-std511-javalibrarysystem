@@ -95,7 +95,7 @@ public class TransactionDao extends Dao {
         return transaction;
     }
     
-    public boolean create(Transaction item) {
+    public boolean create(List<Transaction> list) {
         Boolean flag = false;
         Connection con = null;
         PreparedStatement ps = null;
@@ -106,17 +106,22 @@ public class TransactionDao extends Dao {
         try {
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, item.getStudent().getId());
-            ps.setInt(2, item.getBook().getId());
-            ps.setInt(3, item.getQuantity());
-            ps.setString(4, item.getStatus());
-            ps.setString(5, item.getDateBorrowed());
-            ps.setString(6, item.getDueDate());
-            ps.setString(7, item.getDateReturned());
-            ps.setInt(8, item.getAdmin().getId());
+            
+            for(Transaction item : list) {
+                ps.setInt(1, item.getStudent().getId());
+                ps.setInt(2, item.getBook().getId());
+                ps.setInt(3, item.getQuantity());
+                ps.setString(4, item.getStatus());
+                ps.setString(5, item.getDateBorrowed());
+                ps.setString(6, item.getDueDate());
+                ps.setString(7, item.getDateReturned());
+                ps.setInt(8, item.getAdmin().getId());
+                
+                ps.addBatch();
+            }
             
             System.out.println("TransactionDao.create() SQL : " + ps.toString());
-            if(ps.executeUpdate() > 0) {
+            if(ps.executeBatch().length > 0) {
                 flag = true;
             }
             

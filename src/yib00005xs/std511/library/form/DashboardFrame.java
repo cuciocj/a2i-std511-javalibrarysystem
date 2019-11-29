@@ -387,6 +387,7 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         pnlBookManagement.setVisible(false);
         pnlTransaction.setVisible(true);
+        //initializeTransactionTable();
     }//GEN-LAST:event_btnTransactionsActionPerformed
 
     private void btnBookManagementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookManagementActionPerformed
@@ -396,13 +397,13 @@ public class DashboardFrame extends javax.swing.JFrame {
 
         pnlBookManagement.setVisible(true);
         pnlTransaction.setVisible(false);
-        initializeBookTable();
+        //initializeBookTable();
     }//GEN-LAST:event_btnBookManagementActionPerformed
 
     private void btnDeleteBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteBookActionPerformed
-        try {
+        if(tblBooks.getSelectedRows().length > 0) {
             System.out.println(Arrays.toString(tblBooks.getSelectedRows()));
-            System.out.println((String) tblBooks.getValueAt(tblBooks.getSelectedRow(), 0));
+            //System.out.println((String) tblBooks.getValueAt(tblBooks.getSelectedRow(), 0));
 
             List<Book> list = new ArrayList<>();
             for (Integer row : tblBooks.getSelectedRows()) {
@@ -420,8 +421,7 @@ public class DashboardFrame extends javax.swing.JFrame {
                 JOptionPane.showConfirmDialog(null, "Error deleting book", "Error",
                         JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("DashboardFrame.btnDeleteBookActionPerformed() ERROR : " + e.toString());
+        } else {
             JOptionPane.showConfirmDialog(null, "Please select a book to delete", "Error",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
         }
@@ -474,6 +474,7 @@ public class DashboardFrame extends javax.swing.JFrame {
             borrowDialog.setVisible(true);
             
             initializeBookTable();
+            initializeTransactionTable();
         } else {
             JOptionPane.showConfirmDialog(null, "Please select a book to borrow", "Error",
                     JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);

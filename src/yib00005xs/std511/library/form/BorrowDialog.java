@@ -1,50 +1,56 @@
 package yib00005xs.std511.library.form;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import yib00005xs.std511.library.controller.TransactionController;
 import yib00005xs.std511.library.dao.StudentDao;
+import yib00005xs.std511.library.model.Admin;
 import yib00005xs.std511.library.model.Book;
 import yib00005xs.std511.library.model.Student;
+import yib00005xs.std511.library.model.Transaction;
 
 /**
  *
  * @author CJ Cucio
  */
 public class BorrowDialog extends javax.swing.JDialog {
-    
+
     private final List<Book> books;
-    
+
     private Map<String, Student> studentsMap;
-    
+
     private List<String> studentsList;
-    
+
     /**
      * Creates new form BorrowDialog
      */
     public BorrowDialog(java.awt.Frame parent, boolean modal, List<Book> books) {
         super(parent, modal);
         this.books = books;
-        
+
+        // initialize dropdown first before initComponents
         initializeStudentDropDown();
         initComponents();
-        
         initializeBookTable();
     }
-    
+
     public void initializeStudentDropDown() {
         List<Student> students = new StudentDao().list();
         studentsList = new ArrayList<>();
         studentsMap = new LinkedHashMap<>();
-        for(Student s : students) {
+        for (Student s : students) {
             String key = s.getSchoolId() + "|" + s.getName();
             studentsMap.put(key, s);
             studentsList.add(key);
         }
     }
-    
+
     public void initializeBookTable() {
         DefaultTableModel model = initializeBookColumns();
 
@@ -64,7 +70,7 @@ public class BorrowDialog extends javax.swing.JDialog {
 
         tblBorrowList.setModel(model);
     }
-    
+
     public DefaultTableModel initializeBookColumns() {
         DefaultTableModel model = new DefaultTableModel() {
             public boolean isCellEditable(int row, int column) {
@@ -106,6 +112,11 @@ public class BorrowDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
+        drpStudentList.setSelectedIndex(-1);
+
+        spnDueCount.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        spnDueCount.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
         tblBorrowList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -140,12 +151,22 @@ public class BorrowDialog extends javax.swing.JDialog {
 
         btnCancel.setText("Cancel");
         btnCancel.setPreferredSize(new java.awt.Dimension(76, 30));
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         btnConfirm.setText("Confirm");
+        btnConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConfirmActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Date borrowed:");
 
-        lblDateNow.setText("Date Today");
+        lblDateNow.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("EEEE, MMM dd, yyyy")));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -198,6 +219,75 @@ public class BorrowDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmActionPerformed
+        Student student = null;
+        if (drpStudentList.getSelectedItem() == null) {
+            JOptionPane.showConfirmDialog(null, "Please select a student from list", "Error",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+        } else {
+            // find student from map
+            student = studentsMap.get(drpStudentList.getSelectedItem());
+
+            if (student == null) {
+                JOptionPane.showConfirmDialog(null, "Invalid student", "Error",
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+            } else {
+                // check if student has pending books for return
+                if (student.getStatus().equalsIgnoreCase("PENDING")) {
+                    JOptionPane.showConfirmDialog(null, student.getName() + " has pending books for return", "Pending",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+                } else if (student.getStatus().equalsIgnoreCase("OVERDUE")) {
+                    JOptionPane.showConfirmDialog(null, student.getName() + " has overdue books!", "Overdue",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+                } else {
+                    // get list of books to borrow
+
+                    int dueCount = Integer.parseInt(spnDueCount.getValue() + "");
+                    List<Transaction> transactions = new ArrayList<>();
+                    LocalDate now = LocalDate.now();
+
+                    for (Book book : books) {
+                        if (book.getQuantity() < 1) {
+                            JOptionPane.showConfirmDialog(null, "One of the book is out of stock", "Notice",
+                                    JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+
+                        student.setStatus("pending");
+                        book.setQuantity(book.getQuantity() - 1);
+                        Transaction trx = new Transaction(
+                                student,
+                                book,
+                                1,
+                                "borrowed",
+                                now.format(DateTimeFormatter.ofPattern("MMM dd, yyyy")),
+                                now.plusDays(dueCount).format(DateTimeFormatter.ofPattern("MMM dd, yyyy")),
+                                "",
+                                new Admin(1));
+                        transactions.add(trx);
+                    }
+
+                    Boolean flag = new TransactionController().doBorrowProcess(transactions);
+
+                    if (flag) {
+                        JOptionPane.showConfirmDialog(null, "Borrow transaction created",
+                                "Success", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                        dispose();
+                    } else {
+                        JOptionPane.showConfirmDialog(null, "Error adding transaction", "Error",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+            }
+        }
+
+    }//GEN-LAST:event_btnConfirmActionPerformed
 
     /**
      * @param args the command line arguments

@@ -9,21 +9,28 @@ public class Student extends User {
     
     private String schoolId;
     
+    private String status;
+    
     public Student(Integer id) {
         super(id);
     }
 
-    public Student(String schoolId, Integer id, String name) {
+    public Student(String schoolId, Integer id, String name, String status) {
         super(id, name);
         this.schoolId = schoolId;
+        this.status = status;
     }
     
     public String getSchoolId() {
         return schoolId;
     }
 
-    public void setSchoolId(String schoolId) {
-        this.schoolId = schoolId;
+    public String getStatus() {
+        return status;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
     }
     
 }
