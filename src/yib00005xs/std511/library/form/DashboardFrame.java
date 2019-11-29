@@ -209,6 +209,11 @@ public class DashboardFrame extends javax.swing.JFrame {
         });
 
         btnReturn.setText("Return");
+        btnReturn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReturnActionPerformed(evt);
+            }
+        });
 
         tblBooks.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -481,6 +486,15 @@ public class DashboardFrame extends javax.swing.JFrame {
                     JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnBorrowActionPerformed
+
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
+        // TODO add your handling code here:
+        ReturnDialog returnDialog = new ReturnDialog(this, rootPaneCheckingEnabled);
+        returnDialog.setVisible(true);
+        
+        initializeBookTable();
+        initializeTransactionTable();
+    }//GEN-LAST:event_btnReturnActionPerformed
 
     /**
      * @param args the command line arguments

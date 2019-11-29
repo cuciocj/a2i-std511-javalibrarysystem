@@ -23,6 +23,10 @@ public class Transaction extends Entity {
     
     private Admin admin;
     
+    public Transaction(Student student) {
+        this.student = student;
+    }
+    
     public Transaction(Student student, Book book, Integer quantity,
             String status, String dateBorrowed, String dueDate, String dateReturned, Admin admin) {
         this.student = student;
@@ -62,6 +66,10 @@ public class Transaction extends Entity {
 
     public String getStatus() {
         return status;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getDateBorrowed() {

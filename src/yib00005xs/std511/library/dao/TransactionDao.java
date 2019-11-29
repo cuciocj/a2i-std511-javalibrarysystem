@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import yib00005xs.std511.library.model.Transaction;
@@ -49,6 +51,43 @@ public class TransactionDao extends Dao {
             
         } catch (SQLException e) {
             System.out.println("TransactionDao.list() ERROR : " + e.toString());
+        } finally {
+            close(con, ps);
+        }
+        
+        return list;
+    }
+    
+    public List<Transaction> listNotReturned(Transaction filter) {
+        List<Transaction> list = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from " + TABLE + " where student_id = ? and status != 'returned' order by id desc";
+        
+        try {
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, filter.getStudent().getId());
+            
+            System.out.println("TransactionDao.listNotReturned() SQL : " + ps.toString());
+            rs = ps.executeQuery();
+            while(rs.next()) {
+                Transaction item = new Transaction(rs.getInt("id"),
+                        filter.getStudent(),
+                        new BookDao().find(new Book(rs.getInt("book_id"))), 
+                        rs.getInt("quantity"),
+                        rs.getString("status"),
+                        rs.getString("date_borrowed"), 
+                        rs.getString("due_date"),
+                        rs.getString("date_returned"),
+                        new Admin(rs.getInt("id")));
+                
+                list.add(item);
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("TransactionDao.listNotReturned() ERROR : " + e.toString());
         } finally {
             close(con, ps);
         }
@@ -162,6 +201,33 @@ public class TransactionDao extends Dao {
             
         } catch (SQLException e) {
             System.out.println("TransactionDao.update() ERROR : " + e.toString());
+        } finally {
+            close(con, ps);
+        }
+        
+        return flag;
+    }
+    
+    public boolean updateStatus(Transaction item) {
+        Boolean flag = false;
+        Connection con = null;
+        PreparedStatement ps = null;
+        String sql = "update " + TABLE + " set status = ?, date_returned = ? where student_id = ?";
+        
+        try {
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, item.getStatus());
+            ps.setString(2, LocalDate.now().format(DateTimeFormatter.ofPattern("MMM dd, yyyy")));
+            ps.setInt(3, item.getStudent().getId());
+            
+            System.out.println("TransactionDao.updateStatus() SQL : " + ps.toString());
+            if(ps.executeUpdate() > 0) {
+                flag = true;
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("TransactionDao.updateStatus() ERROR : " + e.toString());
         } finally {
             close(con, ps);
         }

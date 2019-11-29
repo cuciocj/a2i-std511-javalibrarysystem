@@ -11,6 +11,10 @@ public class Student extends User {
     
     private String status;
     
+    public Student() {
+        
+    }
+    
     public Student(Integer id) {
         super(id);
     }

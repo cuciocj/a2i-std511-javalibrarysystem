@@ -115,6 +115,37 @@ public class StudentDao extends Dao {
 
         return list;
     }
+    
+    public List<Student> listPending() {
+        List<Student> list = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String sql = "select * from " + TABLE + " where status in ('pending', 'overdue') order by name asc";
+        
+        try {
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+
+            System.out.println("StudentDao.list() SQL : " + ps.toString());
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Student s = new Student(rs.getString("school_id"),
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("status"));
+                list.add(s);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("StudentDao.list() ERROR : " + e.toString());
+        } finally {
+            close(con, ps);
+        }
+
+        return list;
+    }
 
     public boolean update(Student student) {
         Boolean flag = false;
