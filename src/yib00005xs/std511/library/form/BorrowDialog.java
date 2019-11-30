@@ -34,13 +34,13 @@ public class BorrowDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.books = books;
 
-        // initialize dropdown first before initComponents
-        initializeStudentDropDown();
+        // initialize student list first before initComponents
+        initializeStudentList();
         initComponents();
         initializeBookTable();
     }
 
-    public void initializeStudentDropDown() {
+    public void initializeStudentList() {
         List<Student> students = new StudentDao().list();
         studentsList = new ArrayList<>();
         studentsMap = new LinkedHashMap<>();

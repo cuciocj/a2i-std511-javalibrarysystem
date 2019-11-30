@@ -26,6 +26,7 @@ public class DashboardFrame extends javax.swing.JFrame {
     }
 
     public void customInit() {
+        btnBookManagement.setSelected(true);
         pnlBookManagement.setVisible(true);
         pnlTransaction.setVisible(false);
         
@@ -52,6 +53,7 @@ public class DashboardFrame extends javax.swing.JFrame {
         }
 
         tblBooks.setModel(model);
+        tblBooks.getColumnModel().getColumn(1).setMinWidth(300);
     }
     
     public void initializeTransactionTable() {
@@ -248,6 +250,11 @@ public class DashboardFrame extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tblBooks);
+        if (tblBooks.getColumnModel().getColumnCount() > 0) {
+            tblBooks.getColumnModel().getColumn(0).setMinWidth(10);
+            tblBooks.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tblBooks.getColumnModel().getColumn(1).setPreferredWidth(150);
+        }
 
         javax.swing.GroupLayout pnlBookManagementLayout = new javax.swing.GroupLayout(pnlBookManagement);
         pnlBookManagement.setLayout(pnlBookManagementLayout);

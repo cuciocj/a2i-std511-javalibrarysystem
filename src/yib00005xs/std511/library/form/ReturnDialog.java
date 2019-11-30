@@ -84,6 +84,7 @@ public class ReturnDialog extends javax.swing.JDialog {
         }
 
         tblBorrowList.setModel(model);
+        tblBorrowList.getColumnModel().getColumn(1).setMinWidth(300);
     }
 
     /**
