@@ -1,9 +1,11 @@
 package yib00005xs.std511.library.form;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import yib00005xs.std511.library.dao.BookDao;
 import yib00005xs.std511.library.dao.TransactionDao;
@@ -247,6 +249,11 @@ public class DashboardFrame extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblBooks.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblBooksMousePressed(evt);
             }
         });
         jScrollPane1.setViewportView(tblBooks);
@@ -502,6 +509,18 @@ public class DashboardFrame extends javax.swing.JFrame {
         initializeBookTable();
         initializeTransactionTable();
     }//GEN-LAST:event_btnReturnActionPerformed
+
+    private void tblBooksMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBooksMousePressed
+        // TODO add your handling code here:
+        JTable table =(JTable) evt.getSource();
+        Point point = evt.getPoint();
+        int row = table.rowAtPoint(point);
+        if (evt.getClickCount() == 2 && table.getSelectedRow() != -1) {
+            System.out.println("double clicked " + row);
+            BookDetailDialog bookDetailDialog = new BookDetailDialog(this, rootPaneCheckingEnabled);
+            bookDetailDialog.setVisible(true);
+        }
+    }//GEN-LAST:event_tblBooksMousePressed
 
     /**
      * @param args the command line arguments
