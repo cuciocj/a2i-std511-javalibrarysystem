@@ -28,8 +28,6 @@ public class RegistrationControllerTest {
         
         assertEquals(expResult.getCode(), result.getCode());
         assertEquals(expResult.getMessage(), result.getMessage());
-        // TODO review the generated test code and remove the default call to fail.
-
     }
 
 }
