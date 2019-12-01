@@ -112,6 +112,7 @@ public class ReturnDialog extends javax.swing.JDialog {
         jLabel4.setText("jLabel4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Return");
         setResizable(false);
 
         drpStudentList.setSelectedIndex(-1);

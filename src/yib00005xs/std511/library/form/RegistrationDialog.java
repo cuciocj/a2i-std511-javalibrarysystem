@@ -43,6 +43,7 @@ public class RegistrationDialog extends javax.swing.JDialog {
         txtConfirmPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Registration");
         setResizable(false);
 
         jLabel1.setText("Name");

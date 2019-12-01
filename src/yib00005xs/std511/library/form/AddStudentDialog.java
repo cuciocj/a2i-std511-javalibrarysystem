@@ -36,6 +36,7 @@ public class AddStudentDialog extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Add Student");
         setResizable(false);
 
         jLabel2.setText("Name");

@@ -61,6 +61,7 @@ public class UpdateBookDialog extends javax.swing.JDialog {
         btnSave = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Update Book");
 
         jLabel1.setText("ISBN");
 

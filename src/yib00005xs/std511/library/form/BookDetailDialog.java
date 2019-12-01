@@ -57,6 +57,7 @@ public class BookDetailDialog extends javax.swing.JDialog {
         lblYear = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Properties");
         setResizable(false);
 
         lblCover.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

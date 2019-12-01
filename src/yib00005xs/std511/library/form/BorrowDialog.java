@@ -110,6 +110,7 @@ public class BorrowDialog extends javax.swing.JDialog {
         lblDateNow = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Borrow");
         setResizable(false);
 
         drpStudentList.setSelectedIndex(-1);
