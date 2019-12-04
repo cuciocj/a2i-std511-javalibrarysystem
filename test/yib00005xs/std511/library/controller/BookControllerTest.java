@@ -37,7 +37,7 @@ public class BookControllerTest {
     /**
      * Test of addBook method, of class BookController.
      */
-    @Test
+    @Before
     public void testAddBook() {
         Book book = new Book("testBook", "testAuthor", "testIsbn", "testGenre", "testPublisher", 0, 0);
         BookController instance = new BookController();
@@ -61,7 +61,7 @@ public class BookControllerTest {
     /**
      * Test of removeBook method, of class BookController.
      */
-    @Test
+    @After
     public void testRemoveBook() {
         Book book = new Book("testIsbn");
         BookController instance = new BookController();
