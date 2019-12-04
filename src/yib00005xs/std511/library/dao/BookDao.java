@@ -161,13 +161,24 @@ public class BookDao extends Dao {
         Boolean flag = false;
         Connection con = null;
         PreparedStatement ps = null;
-        String sql = "delete from " + TABLE + " where id = ?";
+        String sql = "delete from " + TABLE + " where id = ? or isbn = ?";
 
         try {
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, item.getId());
-
+            
+            if(item.getId() != null) {
+                ps.setInt(1, item.getId());
+            } else {
+                ps.setInt(1, 0);
+            }
+            
+            if(item.getIsbn() != null) {
+                ps.setString(2, item.getIsbn());
+            } else {
+                ps.setString(2, "");
+            }
+            
             System.out.println("BooksDao.delete() SQL: " + ps.toString());
             if (ps.executeUpdate() > 0) {
                 flag = true;

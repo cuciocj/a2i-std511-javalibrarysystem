@@ -33,19 +33,17 @@ public class BookControllerTest {
     @After
     public void tearDown() {
     }
-
+    
     /**
-     * Test of getBooksList method, of class BookController.
+     * Test of addBook method, of class BookController.
      */
     @Test
-    public void testGetBooksList() {
-        System.out.println("getBooksList");
+    public void testAddBook() {
+        Book book = new Book("testBook", "testAuthor", "testIsbn", "testGenre", "testPublisher", 0, 0);
         BookController instance = new BookController();
-        List<Book> expResult = null;
-        List<Book> result = instance.getBooksList();
+        boolean expResult = true;
+        boolean result = instance.addBook(book);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -53,29 +51,11 @@ public class BookControllerTest {
      */
     @Test
     public void testGetBook() {
-        System.out.println("getBook");
-        Book book = null;
+        Book book = new Book("testIsbn");
         BookController instance = new BookController();
-        Book expResult = null;
+        Book expResult = new Book("testBook", "testAuthor", "testIsbn", "testGenre", "testPublisher", 0, 0);
         Book result = instance.getBook(book);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of addBook method, of class BookController.
-     */
-    @Test
-    public void testAddBook() {
-        System.out.println("addBook");
-        Book book = null;
-        BookController instance = new BookController();
-        boolean expResult = false;
-        boolean result = instance.addBook(book);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult.getTitle(), result.getTitle());
     }
 
     /**
@@ -83,14 +63,11 @@ public class BookControllerTest {
      */
     @Test
     public void testRemoveBook() {
-        System.out.println("removeBook");
-        Book book = null;
+        Book book = new Book("testIsbn");
         BookController instance = new BookController();
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.removeBook(book);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }
